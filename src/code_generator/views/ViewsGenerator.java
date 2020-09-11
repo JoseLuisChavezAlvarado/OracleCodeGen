@@ -15,7 +15,7 @@ import utils.FileUtils;
 public class ViewsGenerator {
 
     public static void createEntityClass(ViewObject object, String path, Map<String, TableDetails> mapDetails) {
-        String classEntityName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(object.getTABLE_NAME()));
+        String classEntityName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(object.getTable_name()));
         String fileEntityName = path.concat(Generator.DB_VIEWS_PATH).concat(classEntityName).concat(".java");
         String fileEntityContent = writeEntityFile(mapDetails, classEntityName);
         FileUtils.writeFile(fileEntityName, fileEntityContent);

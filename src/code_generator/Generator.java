@@ -1,18 +1,16 @@
 package code_generator;
 
 import code_generator.documents.DocumentGenerator;
-import code_generator.views.ViewsGenerator;
 import code_generator.entities.EntitiesGenerator;
 import code_generator.security.SecurityGenerator;
 import code_generator.services.ServiceEntitiesGenerator;
 import code_generator.services.ServiceViewsGenerator;
+import code_generator.views.ViewsGenerator;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import joseluisch.jdbc_utils.controllers.DatabaseConfigController;
-import joseluisch.jdbc_utils.controllers.information_schema.InformationSchemaColumnsController;
 import joseluisch.jdbc_utils.entities.KeyColumnObject;
 import joseluisch.jdbc_utils.entities.TableDetails;
 import joseluisch.jdbc_utils.entities.UserTable;
@@ -46,6 +44,7 @@ public class Generator {
         FileUtils.createPath(path, TEST_PATH);
 
         List<KeyColumnObject> keyColumnObjectsList = DataInstance.getInstance().getKeyColumnObjectList();
+        List<ViewObject> viewObjectsList = DataInstance.getInstance().getViewObjectList();
         List<UserTable> userTables = DataInstance.getInstance().getUserTablesList();
 
         //DELETE DUPLICATED CONSTRAINTS
@@ -53,21 +52,21 @@ public class Generator {
         keyColumnObjectsList.clear();
         keyColumnObjectsList.addAll(set);
 
-        //List<ViewObject> viewObjectsList = DataInstance.getInstance().getViewObjectList();
-        //List<KeyColumnObject> clearedKeyColumnObjectsList = InformationSchemaColumnsController.clearTableNames(keyColumnObjectsList);
+        //GENERATE VIEWS
+        for (ViewObject viewObject : viewObjectsList) {
+            Map<String, TableDetails> mapDetails = DatabaseConfigController.getTableDetails(viewObject.getTable_name());
+            ViewsGenerator.createEntityClass(viewObject, path, mapDetails);
+            ServiceViewsGenerator.createServiceClass(viewObject, path, mapDetails);
+        }
+
         //GENERATE ENTITIES, RESOURCES AND DOCUMENTS FOR EVERY TABLE
         for (UserTable userTable : userTables) {
             Map<String, TableDetails> tableDetailsMap = DatabaseConfigController.getTableDetails(userTable.getTable_name());
             ServiceEntitiesGenerator.createServiceClass(userTable, path, tableDetailsMap, keyColumnObjectsList);
             EntitiesGenerator.createEntityClass(userTable, path, tableDetailsMap, keyColumnObjectsList);
-            //DocumentGenerator.createWSDocumentation(userTable, path, mapDetails);
+            DocumentGenerator.createWSDocumentation(userTable.getTable_name(), path, tableDetailsMap);
         }
 
-//        for (ViewObject viewObject : viewObjectsList) {
-//            Map<String, TableDetails> mapDetails = DatabaseConfigController.getTableDetails(viewObject.getTABLE_NAME());
-//            ViewsGenerator.createEntityClass(viewObject, path, mapDetails);
-//            ServiceViewsGenerator.createServiceClass(viewObject, path, mapDetails);
-//        }
         //CREATE EXTRA CLASSES FOR UTILITIES AND TEST
         ServiceEntitiesGenerator.createExtraServices(path, keyColumnObjectsList);
         SecurityGenerator.createSecurityClass(path);

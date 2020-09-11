@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import joseluisch.jdbc_utils.entities.KeyColumnObject;
 import joseluisch.jdbc_utils.entities.TableDetails;
 import joseluisch.jdbc_utils.utils.ReflectUtils;
 import joseluisch.jdbc_utils.utils.StringUtils;
@@ -20,13 +19,13 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  */
 public class DocumentGenerator extends DocumentGeneratorTools {
 
-    public static void createWSDocumentation(KeyColumnObject keyObject, String path, Map<String, TableDetails> mapDetails) {
+    public static void createWSDocumentation(String tableName, String path, Map<String, TableDetails> mapDetails) {
 
         FileOutputStream fileOutputStream = null;
 
         try {
 
-            String classServiceName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(keyObject.getTable_name()));
+            String classServiceName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(tableName));
             String fileServiceName = path.concat(Generator.DOCUMENTS_PATH).concat(classServiceName).concat("Documentation.docx");
             fileOutputStream = new FileOutputStream(new File(fileServiceName));
 
@@ -35,7 +34,7 @@ public class DocumentGenerator extends DocumentGeneratorTools {
             createTittle(document, "Documentación de Servicio web: NOMBRE del SERVICIO Web", false);
             createSubTittle(document, "Documento creado por JDBCUtils.", false);
             createParagraph(document, "");
-            createParagraph(document, "URL:    http://<SERVER >:<PORT>/ProjectName/webresources/" + StringUtils.toLowerScoreCase(keyObject.getTable_name()));
+            createParagraph(document, "URL:    http://<SERVER >:<PORT>/ProjectName/webresources/" + StringUtils.toLowerScoreCase(tableName));
             createParagraph(document, "");
             //GET ==================================================================
             createSubTittle(document, "Http Methods: GET", false);

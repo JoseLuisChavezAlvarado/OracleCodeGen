@@ -30,8 +30,8 @@ public class ServiceViewsGenerator {
         + "import javax.ws.rs.core.Response;"};
 
     public static void createServiceClass(ViewObject viewObject, String path, Map<String, TableDetails> mapDetails) {
-        String classEntityName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(viewObject.getTABLE_NAME()));
-        String classServiceName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(viewObject.getTABLE_NAME()));
+        String classEntityName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(viewObject.getTable_name()));
+        String classServiceName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(viewObject.getTable_name()));
         String fileServiceName = path.concat(Generator.VIEW_SERVICES_PATH).concat(classServiceName).concat("Resource.java");
         String fileServiceContent = writeServiceFile(mapDetails, classEntityName);
         FileUtils.writeFile(fileServiceName, fileServiceContent);
