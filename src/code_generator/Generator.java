@@ -54,9 +54,10 @@ public class Generator {
 
         //GENERATE VIEWS
         for (ViewObject viewObject : viewObjectsList) {
-            Map<String, TableDetails> mapDetails = DatabaseConfigController.getTableDetails(viewObject.getTable_name());
-            ViewsGenerator.createEntityClass(viewObject, path, mapDetails);
-            ServiceViewsGenerator.createServiceClass(viewObject, path, mapDetails);
+            Map<String, TableDetails> tableDetailsMap = DatabaseConfigController.getTableDetails(viewObject.getTable_name());
+            ViewsGenerator.createEntityClass(viewObject, path, tableDetailsMap);
+            ServiceViewsGenerator.createServiceClass(viewObject, path, tableDetailsMap);
+            DocumentGenerator.createViewWSDocumentation(viewObject.getTable_name(), path, tableDetailsMap);
         }
 
         //GENERATE ENTITIES, RESOURCES AND DOCUMENTS FOR EVERY TABLE
@@ -64,7 +65,7 @@ public class Generator {
             Map<String, TableDetails> tableDetailsMap = DatabaseConfigController.getTableDetails(userTable.getTable_name());
             ServiceEntitiesGenerator.createServiceClass(userTable, path, tableDetailsMap, keyColumnObjectsList);
             EntitiesGenerator.createEntityClass(userTable, path, tableDetailsMap, keyColumnObjectsList);
-            DocumentGenerator.createWSDocumentation(userTable.getTable_name(), path, tableDetailsMap);
+            DocumentGenerator.createEntitiesWSDocumentation(userTable.getTable_name(), path, tableDetailsMap);
         }
 
         //CREATE EXTRA CLASSES FOR UTILITIES AND TEST

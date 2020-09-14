@@ -19,7 +19,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  */
 public class DocumentGenerator extends DocumentGeneratorTools {
 
-    public static void createWSDocumentation(String tableName, String path, Map<String, TableDetails> mapDetails) {
+    public static void createEntitiesWSDocumentation(String tableName, String path, Map<String, TableDetails> mapDetails) {
 
         FileOutputStream fileOutputStream = null;
 
@@ -31,7 +31,7 @@ public class DocumentGenerator extends DocumentGeneratorTools {
 
             XWPFDocument document = new XWPFDocument();
 
-            createTittle(document, "Documentación de Servicio web: NOMBRE del SERVICIO Web", false);
+            createTittle(document, "Documentación de Servicio web: " + StringUtils.toLowerScoreCase(tableName), false);
             createSubTittle(document, "Documento creado por JDBCUtils.", false);
             createParagraph(document, "");
             createParagraph(document, "URL:    http://<SERVER >:<PORT>/ProjectName/webresources/" + StringUtils.toLowerScoreCase(tableName));
@@ -70,9 +70,10 @@ public class DocumentGenerator extends DocumentGeneratorTools {
                 String paramType = ReflectUtils.getPropperFieldType(details.getType());
                 String paramName = details.getField();
 
-                if (details.getKey() != null && !details.getKey().equals("PRI")) {
-                    createParagraph(document, "\t\"" + paramName + "\"" + ":    " + paramType + "\t" + (details.getNullable().equals("YES") ? "(OPTIONAL)" : "(REQUIERED)"));
+                if (details.getKey() == null) {
+                    createParagraph(document, "\t\"" + paramName + "\"" + ":    " + paramType + "\t" + (details.getNullable().equals("Y") ? "(OPTIONAL)" : "(REQUIERED)"));
                 }
+
             }
 
             createParagraph(document, "}");
@@ -98,7 +99,7 @@ public class DocumentGenerator extends DocumentGeneratorTools {
                 String paramType = ReflectUtils.getPropperFieldType(details.getType());
                 String paramName = details.getField();
 
-                createParagraph(document, "\t\"" + paramName + "\"" + ":    " + paramType + "\t" + (details.getNullable().equals("YES") ? "(OPTIONAL)" : "(REQUIERED)"));
+                createParagraph(document, "\t\"" + paramName + "\"" + ":    " + paramType);
             }
 
             createParagraph(document, "}");
@@ -124,7 +125,7 @@ public class DocumentGenerator extends DocumentGeneratorTools {
 
             for (Map.Entry entry : mapDetails.entrySet()) {
                 TableDetails details = (TableDetails) entry.getValue();
-                if (details.getKey() != null && details.getKey().equals("P")) {
+                if (details.getKey() != null && details.getKey().equals("PRIMARY")) {
                     paramType = ReflectUtils.getPropperFieldType(details.getType());
                     paramName = details.getField();
                     break;
@@ -147,6 +148,62 @@ public class DocumentGenerator extends DocumentGeneratorTools {
             //======================================================================
             document.write(fileOutputStream);
 
+            fileOutputStream.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DocumentGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DocumentGenerator.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fileOutputStream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(DocumentGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public static void createViewWSDocumentation(String tableName, String path, Map<String, TableDetails> mapDetails) {
+        FileOutputStream fileOutputStream = null;
+
+        try {
+
+            String classServiceName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(tableName));
+            String fileServiceName = path.concat(Generator.DOCUMENTS_PATH).concat(classServiceName).concat("Documentation.docx");
+            fileOutputStream = new FileOutputStream(new File(fileServiceName));
+
+            XWPFDocument document = new XWPFDocument();
+
+            createTittle(document, "Documentación de Servicio web: " + StringUtils.toLowerScoreCase(tableName), false);
+            createSubTittle(document, "Documento creado por JDBCUtils.", false);
+            createParagraph(document, "");
+            createParagraph(document, "URL:    http://<SERVER >:<PORT>/ProjectName/webresources/" + StringUtils.toLowerScoreCase(tableName));
+            createParagraph(document, "");
+            //GET ==================================================================
+            createSubTittle(document, "Http Methods: GET", false);
+            createParagraph(document, "");
+            createSubTittle(document, "Query Params:", false);
+
+            for (Map.Entry entry : mapDetails.entrySet()) {
+                TableDetails details = (TableDetails) entry.getValue();
+                String paramType = ReflectUtils.getPropperFieldType(details.getType());
+                String paramName = details.getField();
+
+                createParagraph(document, "\t●    " + paramName + ": " + paramType);
+            }
+
+            createParagraph(document, "");
+            createSubTittle(document, "Header Params:", false);
+            createParagraph(document, "\t●    user: " + "String");
+            createParagraph(document, "\t●    pass: " + "String");
+            createParagraph(document, "\t●    token: " + "String");
+            createParagraph(document, "");
+            createSubTittle(document, "Response:", false);
+            createParagraph(document, "\t●    Http Response Status");
+            createParagraph(document, "\t●    Application JSON");
+            createParagraph(document, "\t●    JSON Java Exception");
+
+            document.write(fileOutputStream);
             fileOutputStream.close();
 
         } catch (FileNotFoundException ex) {
