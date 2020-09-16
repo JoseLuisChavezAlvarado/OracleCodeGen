@@ -2,8 +2,10 @@ package code_generator.services;
 
 import code_generator.Generator;
 import static code_generator.Generator.SERVICES_PATH;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import joseluisch.jdbc_utils.entities.KeyColumnObject;
 import joseluisch.jdbc_utils.entities.TableDetails;
 import joseluisch.jdbc_utils.entities.UserTable;
@@ -40,7 +42,7 @@ public class ServiceEntitiesGenerator {
         FileUtils.writeFile(fileServiceName, fileServiceContent);
     }
 
-    public static void createExtraServices(String path, List<KeyColumnObject> list) {
+    public static void createExtraServices(String path, List<UserTable> list) {
         String fileServiceName = path.concat(SERVICES_PATH).concat("ResourceParent.java");
         String fileServiceContent = Consts.RESOURCE_PARENT;
         FileUtils.writeFile(fileServiceName, fileServiceContent);
@@ -101,7 +103,7 @@ public class ServiceEntitiesGenerator {
         return builder.toString();
     }
 
-    private static String writeTestFile(List<KeyColumnObject> list) {
+    private static String writeTestFile(List<UserTable> list) {
 
         StringBuilder builder = new StringBuilder();
         StringBuilder builderParams = new StringBuilder();
@@ -118,8 +120,8 @@ public class ServiceEntitiesGenerator {
         builder.append("\n\t@Produces(MediaType.TEXT_PLAIN)");
         builder.append("\n\tpublic String get() {");
 
-        for (KeyColumnObject keyObject : list) {
-            String classEntityName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(keyObject.getTable_name()));
+        for (UserTable userTable : list) {
+            String classEntityName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(userTable.getTable_name()));
             builderParams.append("new ").append(classEntityName).append("(), ");
         }
 

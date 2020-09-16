@@ -69,7 +69,7 @@ public class Generator {
         }
 
         //CREATE EXTRA CLASSES FOR UTILITIES AND TEST
-        ServiceEntitiesGenerator.createExtraServices(path, keyColumnObjectsList);
+        ServiceEntitiesGenerator.createExtraServices(path, userTables);
         SecurityGenerator.createSecurityClass(path);
     }
 
