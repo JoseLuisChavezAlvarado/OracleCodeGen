@@ -2,10 +2,8 @@ package code_generator.services;
 
 import code_generator.Generator;
 import static code_generator.Generator.SERVICES_PATH;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import joseluisch.jdbc_utils.entities.KeyColumnObject;
 import joseluisch.jdbc_utils.entities.TableDetails;
 import joseluisch.jdbc_utils.entities.UserTable;
@@ -26,7 +24,7 @@ public class ServiceEntitiesGenerator {
         + "import entities.*;"
         + "import com.google.gson.Gson;"
         + "import java.util.Map;"
-        + "import joseluisch.jdbc_utils.controllers.DatabaseController;"
+        + "import joseluisch.jdbc_utils.database.controller.DatabaseController;"
         + "import javax.ws.rs.Produces;"
         + "import javax.ws.rs.GET;"
         + "import javax.ws.rs.HeaderParam;"

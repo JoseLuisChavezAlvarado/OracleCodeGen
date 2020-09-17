@@ -19,7 +19,7 @@ public class ServiceViewsGenerator {
         + "import security.SecurityUtils;"
         + "import com.google.gson.Gson;"
         + "import java.util.Map;"
-        + "import joseluisch.jdbc_utils.controllers.DatabaseController;"
+        + "import joseluisch.jdbc_utils.database.controller.DatabaseController;"
         + "import javax.ws.rs.Produces;"
         + "import javax.ws.rs.GET;"
         + "import javax.ws.rs.HeaderParam;"
