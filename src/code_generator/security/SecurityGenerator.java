@@ -1,7 +1,7 @@
 package code_generator.security;
 
 import code_generator.Generator;
-import joseluisch.jdbc_utils.utils.Consts;
+import penoles.oraclebdutils.utils.Consts;
 import utils.FileUtils;
 
 /**

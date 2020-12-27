@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oraclecodegen;
 
 import code_generator.Generator;
-import joseluisch.jdbc_utils.database.Conexion;
-import joseluisch.jdbc_utils.database.DatabaseInstance;
+import penoles.oraclebdutils.database.Conexion;
+import penoles.oraclebdutils.database.DatabaseInstance;
 
 /**
  *
@@ -22,7 +17,7 @@ public class OracleCodeGen {
         String user = "logistica";
         String pass = "l0g1$t";
 
-        DatabaseInstance.init(url_conection, user, pass);
+        DatabaseInstance.getInstance().init(url_conection, user, pass);
         Conexion conexion = new Conexion();
         conexion.test();
         conexion.closeConexion();
@@ -34,7 +29,7 @@ public class OracleCodeGen {
 
         System.out.println("\nRuta de guardado: " + path);
         System.out.println("Proceso de creación finalizado...\n");
-        
+
     }
 
 }

@@ -2,10 +2,10 @@ package code_generator.services;
 
 import code_generator.Generator;
 import java.util.Map;
-import joseluisch.jdbc_utils.entities.TableDetails;
-import joseluisch.jdbc_utils.entities.ViewObject;
-import joseluisch.jdbc_utils.utils.ReflectUtils;
-import joseluisch.jdbc_utils.utils.StringUtils;
+import penoles.oraclebdutils.entities.TableDetails;
+import penoles.oraclebdutils.entities.ViewObject;
+import penoles.oraclebdutils.utils.ReflectUtils;
+import penoles.oraclebdutils.utils.StringUtils;
 import utils.FileUtils;
 
 /**
@@ -15,19 +15,19 @@ import utils.FileUtils;
 public class ServiceViewsGenerator {
 
     private static final String[] PACKAGES = {
-        "import abstract_classes.ResponseObject;"
-        + "import security.SecurityUtils;"
-        + "import com.google.gson.Gson;"
-        + "import java.util.Map;"
-        + "import joseluisch.jdbc_utils.database.controller.DatabaseController;"
-        + "import javax.ws.rs.Produces;"
-        + "import javax.ws.rs.GET;"
-        + "import javax.ws.rs.HeaderParam;"
-        + "import javax.ws.rs.Path;"
-        + "import javax.ws.rs.QueryParam;"
-        + "import javax.ws.rs.core.MediaType;"
-        + "import entities.views.*;"
-        + "import javax.ws.rs.core.Response;"};
+        "import penoles.oraclebdutils.abstractclasses.ResponseObject;",
+        "import security.SecurityUtils;",
+        "import com.google.gson.Gson;",
+        "import java.util.List;",
+        "import penoles.oraclebdutils.database.controller.DatabaseController;",
+        "import javax.ws.rs.Produces;",
+        "import javax.ws.rs.GET;",
+        "import javax.ws.rs.HeaderParam;",
+        "import javax.ws.rs.Path;",
+        "import javax.ws.rs.QueryParam;",
+        "import javax.ws.rs.core.MediaType;",
+        "import entities.views.*;",
+        "import javax.ws.rs.core.Response;"};
 
     public static void createServiceClass(ViewObject viewObject, String path, Map<String, TableDetails> mapDetails) {
         String classEntityName = StringUtils.toUpperCamelCase(StringUtils.toLowerScoreCase(viewObject.getTable_name()));
@@ -69,21 +69,21 @@ public class ServiceViewsGenerator {
         builder.append("\n\t\t\t@HeaderParam(\"token\") String token)");
         builder.append("\n\t{");
 
-        builder.append("\n\tif (SecurityUtils.validateSecurity(user, pass) || SecurityUtils.validateSecurity(token)) {");
+        builder.append("\n        if (SecurityUtils.validateSecurity(user, pass) || SecurityUtils.validateSecurity(token)) {");
         builder.append("\n\t\t").append(className).append(" entity = new ").append(className).append("(").append(builderParams).append(");");
-        builder.append(" ResponseObject<Map<String, Object>, Exception> responseObject = DatabaseController.select(entity);");
-        builder.append("   Map<String, Object> map = (Map<String, Object>) responseObject.getResponse();");
-        builder.append(" Exception exception = responseObject.getException();");
-        builder.append(" if (exception != null) {");
-        builder.append("                return Response.serverError().entity(new Gson().toJson(exception)).build();");
-        builder.append(" } else {");
-        builder.append("return Response.ok().entity(new Gson().toJson(map)).build();");
-        builder.append("}");
-        builder.append("\n\t} else {");
-        builder.append("\n\t\treturn Response.status(Response.Status.FORBIDDEN).build();");
-        builder.append("\n\t}");
-        builder.append("\n\t}");
-        builder.append("\n\n}");
+        builder.append("\n            ResponseObject<List<Object>, Exception> responseObject = DatabaseController.select(entity);");
+        builder.append("\n            List<Object> map = (List<Object>) responseObject.getResponse();");
+        builder.append("\n            Exception exception = responseObject.getException();");
+        builder.append("\n            if (exception != null) {");
+        builder.append("\n                return Response.serverError().entity(new Gson().toJson(exception)).build();");
+        builder.append("\n            } else {");
+        builder.append("\n                return Response.ok().entity(new Gson().toJson(map)).build();");
+        builder.append("\n            }");
+        builder.append("\n        } else {");
+        builder.append("\n            return Response.status(Response.Status.FORBIDDEN).build();");
+        builder.append("\n        }");
+        builder.append("\n    }");
+        builder.append("\n}");
 
         return builder.toString();
     }

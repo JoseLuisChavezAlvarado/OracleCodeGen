@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import joseluisch.jdbc_utils.entities.TableDetails;
-import joseluisch.jdbc_utils.utils.ReflectUtils;
-import joseluisch.jdbc_utils.utils.StringUtils;
+import penoles.oraclebdutils.entities.TableDetails;
+import penoles.oraclebdutils.utils.ReflectUtils;
+import penoles.oraclebdutils.utils.StringUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 /**

@@ -10,12 +10,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import joseluisch.jdbc_utils.controllers.DatabaseConfigController;
-import joseluisch.jdbc_utils.entities.KeyColumnObject;
-import joseluisch.jdbc_utils.entities.TableDetails;
-import joseluisch.jdbc_utils.entities.UserTable;
-import joseluisch.jdbc_utils.entities.ViewObject;
-import joseluisch.jdbc_utils.singleton.DataInstance;
+import penoles.oraclebdutils.controllers.DatabaseConfigController;
+import penoles.oraclebdutils.entities.KeyColumnObject;
+import penoles.oraclebdutils.entities.TableDetails;
+import penoles.oraclebdutils.entities.UserTable;
+import penoles.oraclebdutils.entities.ViewObject;
+import penoles.oraclebdutils.singleton.DataInstance;
 import utils.FileUtils;
 
 /**

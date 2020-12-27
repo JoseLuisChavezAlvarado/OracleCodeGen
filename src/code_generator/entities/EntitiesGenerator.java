@@ -3,11 +3,11 @@ package code_generator.entities;
 import code_generator.Generator;
 import java.util.List;
 import java.util.Map;
-import joseluisch.jdbc_utils.entities.KeyColumnObject;
-import joseluisch.jdbc_utils.entities.TableDetails;
-import joseluisch.jdbc_utils.entities.UserTable;
-import joseluisch.jdbc_utils.utils.ReflectUtils;
-import joseluisch.jdbc_utils.utils.StringUtils;
+import penoles.oraclebdutils.entities.KeyColumnObject;
+import penoles.oraclebdutils.entities.TableDetails;
+import penoles.oraclebdutils.entities.UserTable;
+import penoles.oraclebdutils.utils.ReflectUtils;
+import penoles.oraclebdutils.utils.StringUtils;
 import utils.FileUtils;
 
 /**
