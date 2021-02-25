@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package utils;
 
 import java.io.File;
@@ -11,7 +6,7 @@ import java.io.IOException;
 
 /**
  *
- * @author joseluischavez
+ * @author Jose Luis Ch.
  */
 public class FileUtils {
 
@@ -26,8 +21,14 @@ public class FileUtils {
         }
     }
 
-    public static boolean createFile(File file) throws IOException {
-        return file.createNewFile();
+    public static boolean createFile(File file) {
+        try {
+            return file.createNewFile();
+        } catch (IOException ex) {
+            System.err.println("El sistema no puede encontrar la ruta especificada");
+            System.exit(0);
+        }
+        return false;
     }
 
     public static boolean writeFile(String fileName, String content) {
@@ -40,7 +41,7 @@ public class FileUtils {
             myWriter.close();
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            //System.err.println("El sistema no puede encontrar la ruta especificada");
             return false;
         }
     }

@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import penoles.oraclebdutils.entities.TableDetails;
 import penoles.oraclebdutils.utils.ReflectUtils;
 import penoles.oraclebdutils.utils.StringUtils;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 /**
  *
@@ -207,14 +207,13 @@ public class DocumentGenerator extends DocumentGeneratorTools {
             fileOutputStream.close();
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DocumentGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DocumentGenerator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(DocumentGenerator.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 fileOutputStream.close();
-            } catch (IOException ex) {
-                Logger.getLogger(DocumentGenerator.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
             }
         }
     }
